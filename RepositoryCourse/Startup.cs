@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RepositoryCourse.Models;
+using RepositoryCourse.Repositories;
 
 namespace RepositoryCourse
 {
@@ -33,6 +34,13 @@ namespace RepositoryCourse
         {
             services.AddDbContext<RepositoryCourseContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:RepositoryDB"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //gdje god dodamo interfejs u konstuktoru ce se kreirati instanca repozitorijuma
+            services.AddScoped<IAutor, RAutor>();
+            services.AddScoped<ICourse, RCourse>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
