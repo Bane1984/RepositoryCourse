@@ -28,31 +28,38 @@ namespace RepositoryCourse.Controllers
         /// Gets all.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var svi = _repository.GetAll();
             return Ok(svi);
         }
 
-        /// <summary>
-        /// Gets the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var poIdu = _repository.Get(id);
             return Ok(poIdu);
         }
 
-        [HttpPost]
-        public IActionResult Create(Autor autor)
+        public IActionResult Create(T entitet)
         {
-            _unitOfWork.Autors.Create(autor);
+            _repository.Create(entitet);
             _unitOfWork.Complete();
-            return Ok("Autor kreiran preko repozitorijuma!");
+            return Ok();
+        }
+
+        //public IActionResult Put(int id, T entity)
+        //{
+        //    _repository.Update(entity);
+        //    _unitOfWork.Complete();
+        //    return Ok();
+        //}
+
+        public IActionResult Delete(T entitet)
+        {
+            _repository.Delete(entitet);
+            _unitOfWork.Complete();
+            return Ok();
         }
     }
 }
