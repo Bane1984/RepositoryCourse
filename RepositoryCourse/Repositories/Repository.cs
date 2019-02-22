@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RepositoryCourse.Repositories;
 
-namespace RepositoryCourse.Controllers
+namespace RepositoryCourse.Repositories
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RepositoryController<T> : IRepository<T> where T: class
+    public class Repository<T> : IRepository<T> where T: class
     {
         protected readonly DbContext _context;
-        public RepositoryController(DbContext context)
+        public Repository(DbContext context)
         {
             _context = context;
         }
@@ -40,6 +35,5 @@ namespace RepositoryCourse.Controllers
         {
             _context.Set<T>().Remove(entitet);
         }
-
     }
 }
