@@ -17,11 +17,13 @@ namespace RepositoryCourse.Controllers
     {
         private IRepository<T> _repository;
         private IUnitOfWork _unitOfWork;
+        private IMapper _mapper;
 
-        public BaseController(IRepository<T> repository, IUnitOfWork unitOfWork)
+        public BaseController(IRepository<T> repository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _repository = repository;
-            _unitOfWork = unitOfWork;   
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -29,37 +31,63 @@ namespace RepositoryCourse.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        protected virtual IActionResult GetAll()
         {
             var svi = _repository.GetAll();
             return Ok(svi);
         }
 
-        public IActionResult Get(int id)
+        /// <summary>
+        /// Get include Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("get/{id}")]
+        protected virtual IActionResult Get(int id)
         {
             var poIdu = _repository.Get(id);
             return Ok(poIdu);
         }
 
-        public IActionResult Create(T entitet)
+        /// <summary>
+        /// Create object.
+        /// </summary>
+        /// <param name="entitet"></param>
+        /// <returns></returns>
+        [HttpPost("create")]
+        protected virtual IActionResult Create(T entitet)
         {
             _repository.Create(entitet);
             _unitOfWork.Complete();
-            return Ok();
+            return Ok("Kreirano!");
         }
 
-        //public IActionResult Put(int id, T entity)
-        //{
-        //    _repository.Update(entity);
-        //    _unitOfWork.Complete();
-        //    return Ok();
-        //}
+        /// <summary>
+        /// Update.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPut("update")]
+        protected virtual IActionResult Update(int id, T entity)
+        {
+            var ulaz = _repository.Get(id);
+            _mapper.Map(entity, ulaz);
+            _unitOfWork.Complete();
+            return Ok("Update-ovano!");
+        }
 
-        public IActionResult Delete(T entitet)
+        /// <summary>
+        /// Delete.
+        /// </summary>
+        /// <param name = "entitet" ></ param >
+        /// < returns ></ returns >
+        //[HttpDelete("delete")]
+        protected virtual IActionResult Delete(T entitet)
         {
             _repository.Delete(entitet);
             _unitOfWork.Complete();
-            return Ok();
+            return Ok("Obrisano!");
         }
     }
 }

@@ -21,7 +21,5 @@ namespace RepositoryCourse.Models
         public int AutorId { get; set; }
         [ForeignKey("AutorId")]
         public Autor Autor { get; set; }
-
-        //public IList<Tag> Tags { get; set; }
     }
 }

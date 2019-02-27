@@ -31,6 +31,12 @@ namespace RepositoryCourse.Repositories
             _context.Set<T>().Add(entitet);
         }
 
+        public void Update(int id, T entitet)
+        {
+            var apdejtuj = _context.Set<T>().Attach(entitet);
+            apdejtuj.State = EntityState.Modified;
+        }
+
         public void Delete(T entitet)
         {
             _context.Set<T>().Remove(entitet);

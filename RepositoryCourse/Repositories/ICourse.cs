@@ -9,6 +9,9 @@ namespace RepositoryCourse.Repositories
 {
     public interface ICourse:IRepository<Course>
     {
+        void Create(Course curs);
+        IEnumerable<Course> GetAll();
         IEnumerable<Course> GetTopSellingCourses(int count);
+
     }
 }

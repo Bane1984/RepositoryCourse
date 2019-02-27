@@ -23,5 +23,19 @@ namespace RepositoryCourse.Repositories
             var uzmi = RepositoryCourseContext.Autors.Include(c => c.Courses).SingleOrDefault(c => c.AutorId == id);
             return uzmi;
         }
+
+        public IEnumerable<Autor> GetAll()
+        {
+            var a = RepositoryCourseContext.Autors.ToList();
+            return a;
+        }
+
+        public void Create(Autor autor)
+        {
+            var a = new Autor
+            {
+                AutorName = autor.AutorName
+            };
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace RepositoryCourse.Repositories
         IEnumerable<T> GetAll(); 
         T Get(int id);
         void Create(T entitet);
+        void Update(int id, T entitet);
         void Delete(T entitet);
     }
 }
