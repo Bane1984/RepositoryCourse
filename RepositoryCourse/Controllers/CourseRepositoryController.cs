@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryCourse.Repositories;
 using RepositoryCourse.Models;
 using AutoMapper;
+using System.Runtime.Serialization;
 
 namespace RepositoryCourse.Controllers
 {
@@ -18,6 +21,7 @@ namespace RepositoryCourse.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly RepositoryCourseContext _context;
+        
         public RepositoryCourseContext RepositoryCourseContext
         {
             get { return _context as RepositoryCourseContext; }
@@ -64,6 +68,27 @@ namespace RepositoryCourse.Controllers
             _unitOfWork.Complete();
             return Ok("Uspjesno kreiran kurs.");
         }
+
+        ///// <summary>
+        ///// Provjeris the specified identifier.
+        ///// </summary>
+        ///// <param name="id">The identifier.</param>
+        ///// <returns></returns>
+        ///// <exception cref="ArgumentOutOfRangeException">Uneseni Id je van opsega.</exception>
+        //[HttpGet("provjeri")]
+        //public IActionResult Provjeri([FromQuery]int id)
+        //{
+        //    if (id > 100)
+        //    {
+        //        throw new HttpResponseException(new HttpResponseMessage
+        //        {
+        //            StatusCode = HttpStatusCode.BadRequest,
+        //            Content = new StringContent("Ne mozete unijeti Id veci od 100.")
+        //        });
+        //    }
+
+        //    return Ok("Uneseni id je u dozvoljenom opsegu!");
+        //}
 
     }
 }
