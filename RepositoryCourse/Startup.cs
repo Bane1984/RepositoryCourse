@@ -17,6 +17,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RepositoryCourse.Models;
 using RepositoryCourse.Repositories;
+using RepositoryCourse.Filters;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace RepositoryCourse
 {
@@ -33,9 +35,16 @@ namespace RepositoryCourse
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<RepositoryCourseContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:RepositoryDB"]));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //gdje god dodamo interfejs u konstuktoru ce se kreirati instanca repozitorijuma
+            //filteri
+            services.AddMvc(option =>
+            {
+                option.Filters.Add(typeof(CustomExceptionService));
+                option.Filters.Add(typeof(ResultExceptionFilter));
+                option.Filters.Add(typeof(UnitOfWorkFilter));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //DI - gdje god dodamo interfejs u konstuktoru ce se kreirati instanca repozitorijuma
             services.AddScoped<IAutor, RAutor>();
             services.AddScoped<ICourse, RCourse>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

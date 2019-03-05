@@ -18,21 +18,22 @@ namespace RepositoryCourse.Repositories
         {
             get { return _context as RepositoryCourseContext; }
         }
-        public IEnumerable<Course> GetAll()
-        {
-            return RepositoryCourseContext.Courses.ToList();
-        }
+        //public IEnumerable<Course> GetAll()
+        //{
+        //    return RepositoryCourseContext.Courses.ToList();
+        //}
 
-        public void Create(Course curs)
-        {
-            var kurs = new Course
-            {
-                CourseName = curs.CourseName,
-                Description = curs.Description,
-                Level = curs.Level,
-                FullPrice = curs.FullPrice
-            };
-        }
+        //public void Create(Course curs)
+        //{
+        //    var kurs = new Course
+        //    {
+        //        CourseName = curs.CourseName,
+        //        Description = curs.Description,
+        //        Level = curs.Level,
+        //        FullPrice = curs.FullPrice
+        //    };
+        //    RepositoryCourseContext.Add(kurs);
+        //}
 
         public IEnumerable<Course> GetTopSellingCourses(int count)
         {

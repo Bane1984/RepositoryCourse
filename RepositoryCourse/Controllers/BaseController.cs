@@ -5,15 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryCourse.Repositories;
+using RepositoryCourse.DTO;
 using RepositoryCourse.Models;
 
 namespace RepositoryCourse.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseController<T> : Controller where T:class
+    public class BaseController<T, Tdto> : Controller where T:class where Tdto:class 
     {
         private IRepository<T> _repository;
         private IUnitOfWork _unitOfWork;
@@ -34,7 +36,12 @@ namespace RepositoryCourse.Controllers
         protected virtual IActionResult GetAll()
         {
             var svi = _repository.GetAll();
-            return Ok(svi);
+            if (svi != null)
+            {
+                _mapper.Map<IEnumerable<Tdto>>(svi);
+                return Ok(svi);
+            }
+            return NotFound("Nije pronadjen ni jedan zapis.");
         }
 
         /// <summary>
@@ -46,6 +53,7 @@ namespace RepositoryCourse.Controllers
         protected virtual IActionResult Get(int id)
         {
             var poIdu = _repository.Get(id);
+            _mapper.Map<Tdto>(poIdu);
             return Ok(poIdu);
         }
 
@@ -55,11 +63,12 @@ namespace RepositoryCourse.Controllers
         /// <param name="entitet"></param>
         /// <returns></returns>
         [HttpPost("create")]
-        protected virtual IActionResult Create(T entitet)
+        protected virtual IActionResult Create(Tdto entitet)
         {
-            _repository.Create(entitet);
-            _unitOfWork.Complete();
-            return Ok("Kreirano!");
+            var add = _mapper.Map<T>(entitet);
+            _repository.Create(add);
+            //_unitOfWork.Complete();
+            return Ok(add);
         }
 
         /// <summary>
@@ -69,7 +78,7 @@ namespace RepositoryCourse.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPut("update")]
-        protected virtual IActionResult Update(int id, T entity)
+        protected virtual IActionResult Update(int id, Tdto entity)
         {
             var ulaz = _repository.Get(id);
             _mapper.Map(entity, ulaz);
@@ -80,12 +89,12 @@ namespace RepositoryCourse.Controllers
         /// <summary>
         /// Delete.
         /// </summary>
-        /// <param name = "entitet" ></ param >
-        /// < returns ></ returns >
+        /// <param name = "entitet" ></param >
+        /// <returns ></returns >
         //[HttpDelete("delete")]
-        protected virtual IActionResult Delete(T entitet)
+        protected virtual IActionResult Delete(int id)
         {
-            _repository.Delete(entitet);
+            _repository.Delete(id);
             _unitOfWork.Complete();
             return Ok("Obrisano!");
         }

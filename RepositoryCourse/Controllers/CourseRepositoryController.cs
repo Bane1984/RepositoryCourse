@@ -10,12 +10,13 @@ using RepositoryCourse.Repositories;
 using RepositoryCourse.Models;
 using AutoMapper;
 using System.Runtime.Serialization;
+using RepositoryCourse.DTO;
 
 namespace RepositoryCourse.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseRepositoryController : BaseController<Course>
+    public class CourseRepositoryController : BaseController<Course, CourseDTO>
     {
         private readonly ICourse _repository;
         private readonly IMapper _mapper;

@@ -8,9 +8,9 @@ namespace RepositoryCourse.Repositories
 {
     public interface IAutor:IRepository<Autor>
     {
-        IEnumerable<Autor> GetAll();
-        Autor GetAutor(int id);
-        void Create(Autor curs);
+        //IEnumerable<Autor> GetAll();
+        //Autor GetAutor(int id);
+        //void CreateAutor(Autor curs);
 
     }
 }

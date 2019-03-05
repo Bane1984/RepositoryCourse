@@ -10,5 +10,8 @@ namespace RepositoryCourse.Repositories
         ICourse Courses { get; set; }
         IAutor Autors { get; set; }
         int Complete();
+        void Start();
+        void Commit();
+        void Dispose();
     }
 }

@@ -7,6 +7,6 @@ namespace RepositoryCourse.DTO
 {
     public class AutorDTO
     {
-        public string Name { get; set; }
+        public string AutorName { get; set; }
     }
 }

@@ -7,22 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using RepositoryCourse.Repositories;
 using RepositoryCourse.Models;
 using AutoMapper;
+using RepositoryCourse.DTO;
 
 namespace RepositoryCourse.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AutorRepositoryController : BaseController<Autor>
+    public class AutorRepositoryController : BaseController<Autor, AutorDTO>
     {
         private readonly IAutor _repository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly RepositoryCourseContext _context;
-
-        public RepositoryCourseContext RepositoryCourseContext
-        {
-            get { return _context as RepositoryCourseContext; }
-        }
+     
 
         public AutorRepositoryController(IAutor repository, IUnitOfWork unitOfWork, IMapper mapper) : base(repository, unitOfWork, mapper)
         {
@@ -60,14 +56,35 @@ namespace RepositoryCourse.Controllers
         /// <param name="autor"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Create(Autor autor)
+        public IActionResult Create(AutorDTO autor)
         {
-            var a = new Autor
-            {
-                AutorName = autor.AutorName
-            };
-            _unitOfWork.Complete();
-            return Ok("Autor kreiran.");
+            var add = base.Create(autor);
+            return Ok(add);
+        }
+
+        /// <summary>
+        /// Update autor.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="autor">The autor.</param>
+        /// <returns></returns>
+        [HttpPut]
+        public IActionResult Update(int id, AutorDTO autor)
+        {
+            var update = base.Update(id, autor);
+            return Ok(update);
+        }
+
+        /// <summary>
+        /// Delete autor.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("delete")]
+        public IActionResult Delete(int id)
+        {
+            var delete = base.Delete(id);
+            return Ok(delete);
         }
     }
 }
